@@ -54,5 +54,57 @@ object GitObj {
 					finaldata.printSchema()
 
 					println(finaldata.count())
+					
+					println("=============reversing back to json=====================")
+
+					val compdf=finaldata.groupBy("nationality", "seed", "version").agg(collect_list(
+							struct(
+
+
+									struct(
+											col("cell")
+											,col("dob")
+											,col("email")
+											,col("gender"),
+											struct(
+													col("city")
+													,col("state")
+													,col("street")
+													,col("zip")
+													).alias("location"),
+
+
+											col("md5"),
+
+											struct(
+
+													col("first")
+													,col("last")
+													,col("title")
+													).alias("name"),
+											col("password"),
+											col("phone"),
+
+											struct(
+													col("large")
+													,col("medium")
+													,col("thumbnail")  
+													).alias("picture"),
+											col("registered"),
+											col("salt")
+											,col("sha1")
+											,col("sha256")
+											,col("username")
+
+											).alias("user")
+
+
+									)
+							).alias("results")
+							)
+
+					compdf.show()
+					compdf.printSchema()
+
 	}
 }
